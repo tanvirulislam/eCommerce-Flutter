@@ -1,10 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:test_project/providers/favorite_provider.dart';
 
-import 'package:test_project/const.dart';
+import 'package:test_project/views/bottom_nav_pages/favorite.dart';
 
+// ignore: must_be_immutable
 class ProductOverview extends StatefulWidget {
   String id;
   String name;
@@ -26,8 +32,39 @@ class ProductOverview extends StatefulWidget {
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
+  FavoriteProvider? _favoriteProvider;
+  int count = 1;
+  bool addedToFavorite = false;
+  @override
+  void initState() {
+    getFavoriteItem();
+    super.initState();
+  }
+
+  getFavoriteItem() async {
+    await FirebaseFirestore.instance
+        .collection('favorite')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('favoriteItems')
+        .doc(widget.id)
+        .get()
+        .then((value) => {
+              if (value.exists)
+                {
+                  if (mounted)
+                    {
+                      setState(() {
+                        addedToFavorite = value.get("itemAdded");
+                      })
+                    }
+                }
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _favoriteProvider = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Details'),
@@ -37,7 +74,15 @@ class _ProductOverviewState extends State<ProductOverview> {
             icon: Icon(Icons.shopping_cart_outlined),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: FavoriteScreen(),
+                  type: PageTransitionType.rightToLeft,
+                ),
+              );
+            },
             icon: Icon(Icons.favorite_outline),
           ),
         ],
@@ -86,9 +131,27 @@ class _ProductOverviewState extends State<ProductOverview> {
                 Text(widget.name, textScaleFactor: 1.5),
                 Text('TK ' + widget.price.toString()),
                 ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite_outline),
-                  label: Text('Add to Favorite'),
+                  onPressed: () {
+                    _favoriteProvider!.addToFavorite(
+                      id: widget.id,
+                      name: widget.name,
+                      price: widget.price,
+                      quantity: count,
+                      image: widget.image,
+                      description: widget.description,
+                    );
+                    if (addedToFavorite == false) {
+                      setState(() {
+                        addedToFavorite = true;
+                      });
+                    }
+                  },
+                  icon: addedToFavorite
+                      ? Icon(Icons.favorite)
+                      : Icon(Icons.favorite_outline),
+                  label: addedToFavorite
+                      ? Text('Item added')
+                      : Text('Add to favorite'),
                 ),
               ],
             ),

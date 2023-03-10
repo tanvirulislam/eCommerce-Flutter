@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:test_project/google_signin/google_sign_in.dart';
 import 'package:test_project/providers/cart_provider.dart';
 import 'package:test_project/providers/category_provider.dart';
+import 'package:test_project/providers/favorite_provider.dart';
 import 'package:test_project/providers/product_provider.dart';
 import 'package:test_project/providers/user_provider.dart';
 import 'package:test_project/views/bottom_nav_controller.dart';
@@ -56,6 +57,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FavoriteProvider(),
         ),
       ],
       child: MaterialApp(

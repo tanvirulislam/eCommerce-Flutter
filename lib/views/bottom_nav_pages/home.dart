@@ -156,18 +156,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () => Navigator.push(
                             context,
                             PageTransition(
-                                child: ProductOverview(
-                                  id: productProvider.mostlyOrderList[index].id,
-                                  name: productProvider
-                                      .mostlyOrderList[index].name,
-                                  price: productProvider
-                                      .mostlyOrderList[index].price,
-                                  image: productProvider
-                                      .mostlyOrderList[index].image,
-                                  description: productProvider
-                                      .mostlyOrderList[index].description,
-                                ),
-                                type: PageTransitionType.leftToRight),
+                              child: ProductOverview(
+                                id: productProvider.mostlyOrderList[index].id,
+                                name:
+                                    productProvider.mostlyOrderList[index].name,
+                                price: productProvider
+                                    .mostlyOrderList[index].price,
+                                image: productProvider
+                                    .mostlyOrderList[index].image,
+                                description: productProvider
+                                    .mostlyOrderList[index].description,
+                              ),
+                              type: PageTransitionType.rightToLeft,
+                            ),
                           ),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
