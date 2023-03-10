@@ -25,7 +25,7 @@ class _BottomNavControllerState extends State<BottomNavController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectiveIndex],
+      body: SafeArea(child: _pages[_selectiveIndex]),
       bottomNavigationBar: GNav(
         selectedIndex: _selectiveIndex,
         onTabChange: (value) {

@@ -6,6 +6,7 @@ import 'package:test_project/providers/cart_provider.dart';
 import 'package:test_project/providers/category_provider.dart';
 import 'package:test_project/providers/favorite_provider.dart';
 import 'package:test_project/providers/product_provider.dart';
+import 'package:test_project/providers/theme_provider.dart';
 import 'package:test_project/providers/user_provider.dart';
 import 'package:test_project/views/bottom_nav_controller.dart';
 import 'package:test_project/views/login_screen.dart';
@@ -65,7 +66,9 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fast Food',
-        theme: ThemeData(primarySwatch: Colors.cyan),
+        themeMode: ThemeMode.system,
+        theme: ThemeClass.lightTheme,
+        darkTheme: ThemeClass.darkTheme,
         home: currentPage,
         // home: ProductOverview(),
       ),

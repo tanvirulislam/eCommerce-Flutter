@@ -65,112 +65,114 @@ class _ProductOverviewState extends State<ProductOverview> {
   Widget build(BuildContext context) {
     _favoriteProvider = Provider.of(context, listen: false);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Product Details'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.shopping_cart_outlined),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                  child: FavoriteScreen(),
-                  type: PageTransitionType.rightToLeft,
-                ),
-              );
-            },
-            icon: Icon(Icons.favorite_outline),
-          ),
-        ],
-      ),
-      body: ListView(
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.width < 400 ? 300 : 200,
-              viewportFraction: 1,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              enlargeCenterPage: true,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Product Details'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.shopping_cart_outlined),
             ),
-            items: widget.image.map<Widget>((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: i,
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                    // child: Image.network(i, fit: BoxFit.cover),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Discription', textScaleFactor: 1.5),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(widget.description),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.name, textScaleFactor: 1.5),
-                Text('TK ' + widget.price.toString()),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _favoriteProvider!.addToFavorite(
-                      id: widget.id,
-                      name: widget.name,
-                      price: widget.price,
-                      quantity: count,
-                      image: widget.image,
-                      description: widget.description,
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: FavoriteScreen(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
+              },
+              icon: Icon(Icons.favorite_outline),
+            ),
+          ],
+        ),
+        body: ListView(
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.width < 400 ? 300 : 200,
+                viewportFraction: 1,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                enlargeCenterPage: true,
+              ),
+              items: widget.image.map<Widget>((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: i,
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                      // child: Image.network(i, fit: BoxFit.cover),
                     );
-                    if (addedToFavorite == false) {
-                      setState(() {
-                        addedToFavorite = true;
-                      });
-                    }
                   },
-                  icon: addedToFavorite
-                      ? Icon(Icons.favorite)
-                      : Icon(Icons.favorite_outline),
-                  label: addedToFavorite
-                      ? Text('Item added')
-                      : Text('Add to favorite'),
-                ),
-              ],
+                );
+              }).toList(),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Quantity  1'),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  label: Text('Add to Cart'),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Discription', textScaleFactor: 1.5),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(widget.description),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.name, textScaleFactor: 1.5),
+                  Text('TK ' + widget.price.toString()),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _favoriteProvider!.addToFavorite(
+                        id: widget.id,
+                        name: widget.name,
+                        price: widget.price,
+                        quantity: count,
+                        image: widget.image,
+                        description: widget.description,
+                      );
+                      if (addedToFavorite == false) {
+                        setState(() {
+                          addedToFavorite = true;
+                        });
+                      }
+                    },
+                    icon: addedToFavorite
+                        ? Icon(Icons.favorite)
+                        : Icon(Icons.favorite_outline),
+                    label: addedToFavorite
+                        ? Text('Item added')
+                        : Text('Add to favorite'),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Quantity  1'),
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.shopping_cart_outlined),
+                    label: Text('Add to Cart'),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
