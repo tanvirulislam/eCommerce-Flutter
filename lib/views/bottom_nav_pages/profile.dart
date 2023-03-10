@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/const.dart';
 import 'package:test_project/google_signin/google_sign_in.dart';
@@ -52,9 +53,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _authClass.logout();
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
+                                PageTransition(
+                                    child: LoginScreen(),
+                                    type: PageTransitionType.rightToLeft),
                                 (route) => false);
                           },
                           icon:
@@ -113,7 +114,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ListTile(
               leading: Icon(Icons.shopping_basket),
               title: Text('My Order', style: food_name_style),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.arrow_forward),
+              ),
             ),
             Divider(),
             ListTile(

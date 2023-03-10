@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/cart_provider.dart';
 
+// ignore: must_be_immutable
 class Count extends StatefulWidget {
   String id;
   String name;

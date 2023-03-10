@@ -10,7 +10,6 @@ import 'package:test_project/providers/theme_provider.dart';
 import 'package:test_project/providers/user_provider.dart';
 import 'package:test_project/views/bottom_nav_controller.dart';
 import 'package:test_project/views/login_screen.dart';
-import 'package:test_project/views/product_overview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
